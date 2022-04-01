@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echoserver
+  namespace: echoserver
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/subnets: subnet-068d50265ed6c6238,subnet-0dd1cbed47b58411e
+    alb.ingress.kubernetes.io/tags: Environment=mlopstest,Team=mlops
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:524231469120:certificate/cb73ae1e-54af-4cbd-9539-5d234cd4b9b8
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: echo.kupchenko.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: echoserver
+                port:
+                  number: 80
