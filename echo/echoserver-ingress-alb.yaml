@@ -2,18 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echoserver
-  namespace: echoserver
+  namespace: echo
   annotations:
     alb.ingress.kubernetes.io/scheme: internal
-    alb.ingress.kubernetes.io/subnets: subnet-068d50265ed6c6238,subnet-0dd1cbed47b58411e
-    alb.ingress.kubernetes.io/tags: Environment=mlopstest,Team=mlops
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:524231469120:certificate/cb73ae1e-54af-4cbd-9539-5d234cd4b9b8
+    alb.ingress.kubernetes.io/subnets: subnet-00000000000000001,subnet-00000000000000001
+    alb.ingress.kubernetes.io/tags: Environment=staging,Team=devops
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:000000000000:certificate/0000000-0000-0000-0000-000000000000
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 spec:
   ingressClassName: alb
   rules:
-    - host: echo.kupchenko.com
+    - host: echo.example.com
       http:
         paths:
           - path: /
