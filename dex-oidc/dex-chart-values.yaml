@@ -1,0 +1,38 @@
+# helm upgrade --install --wait dex dex/dex -f dex-chart-values.yaml
+---
+config:
+  issuer: https://sso.example.com/dex
+  storage:
+    type: memory
+  connectors:
+    - type: google
+      id: google
+      name: Google
+      config:
+        issuer: https://accounts.google.com
+        clientID: ${GOOGLE_APP_CLIENT_ID}
+        clientSecret: ${GOOGLE_APP_CLIENT_SECRET}
+        redirectURI: https://sso.example.com/dex/callback
+  staticClients:
+    - id: example-app
+      redirectURIs:
+        - 'https://dex.example.com/callback'
+      name: 'Example App'
+      secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+
+ingress:
+  enabled: true
+  className: nginx-internal
+  hosts:
+    - host: sso.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: dex
+              port:
+                number: 5556
+  tls:
+    - hosts:
+        - sso.example.com
