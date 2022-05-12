@@ -3,16 +3,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: echoserver-lb
-  namespace: echoserver
+  namespace: echo
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
     service.beta.kubernetes.io/aws-load-balancer-scheme: internal
 spec:
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80
       protocol: TCP
-  type: LoadBalancer
   selector:
     app: echoserver
